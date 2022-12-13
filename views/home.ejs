@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="/output.css">
+</head>
+
+
+<script>
+    const showDescription = (content) => {
+        window.alert(content);
+    }
+</script>
+
+<body>
+    <div class="main">
+        <div class="upper">
+            <div class="header text-center text-3xl">
+                TODO App 
+            </div>
+            <div class="flex flex-row justify-center">
+                <form action="/notes/create" class="mt-5 flex flex-col space-y-2 justify-around items-center"
+                    method="post">
+
+                    <div class="title">
+                        Title :
+                        <input type="text" name="title" class="border-2 border-black border-solid" />
+                    </div>
+
+
+                    <div class="description">
+                        Description :
+                        <input type="text" name="description" class="border-2 border-black border-solid">
+                    </div>
+                    <div class="left">
+                        category :
+                        <input type="text" name="category" class="border-2 border-black border-solid">
+                    </div>
+
+                    <div class="right">
+                        date :
+                        <input type="date" name="date" class="border-2 border-black border-solid">
+                    </div>
+                    <div class="buttons">
+                        <button type="submit"
+                            class="bg-blue-500 hover:bg-blue-400 text-white font-bold py-2 px-4 border-b-4 border-blue-700 hover:border-blue-500 rounded">Add
+                            Task</button>
+
+
+                    </div>
+                </form>
+            </div>
+
+            <!-- 
+            <a href="/notes/delete/6372242163b5c17a5dc8f0ec">
+                <button
+                    class="bg-red-500 hover:bg-red-400 text-white font-bold py-2 px-4 border-b-4 border-red-700 hover:border-red-500 rounded">Delete
+                    Tasks</button>
+            </a> -->
+
+        </div>
+
+
+        <div class="list mt-5">
+
+            <div class="heading text-center text-3xl">
+                Todos
+            </div>
+
+            <div class="grid grid-cols-3 px-10 py-10">
+                <% for(let i of data) {%>
+
+                    <div
+                        class="max-w-sm p-6 bg-white border border-gray-200 rounded-lg shadow-md dark:bg-gray-800 dark:border-gray-700">
+
+                        <div class="flex flex-row justify-around">
+                            <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
+                                <%-i.title || 'title' %>
+                            </h5>
+                            <span class="text-gray-900 dark:text-white text-2xl">
+                                <%-i.date%>
+                            </span>
+                        </div>
+
+                        <div class="flex flex-row justify-center items-center">
+                            <button onclick="showDescription('<%-i.description%>')"
+                                class="inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+                                View Description👀
+                                <svg aria-hidden="true" class="w-4 h-4 ml-2 -mr-1" fill="currentColor"
+                                    viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                                    <path fill-rule="evenodd"
+                                        d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z"
+                                        clip-rule="evenodd"></path>
+                                </svg>
+                            </button>
+                        </div>
+
+
+                        <div class="flex flex-row justify-around items-center mt-4">
+                            <button onclick="addNormalPayAlert({flag :true, id: '<%-i._id%>'})"
+                                class="inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white bg-yellow-700 rounded-lg hover:bg-yellow-800 focus:ring-4 focus:outline-none focus:ring-yellow-300 dark:bg-yellow-600 dark:hover:bg-yellow-700 dark:focus:ring-yellow-800">
+                                Update
+                                <svg aria-hidden="true" class="w-4 h-4 ml-2 -mr-1" fill="currentColor"
+                                    viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                                    <path fill-rule="evenodd"
+                                        d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z"
+                                        clip-rule="evenodd"></path>
+                                </svg>
+                            </button>
+
+
+                            <% if(i.completed) {%>
+                                <span class="dark:text-white text-gray-900">Completed</span>
+
+                                <%}else {%>
+                                    <a href="/notes/update-status/<%-i._id%>">
+                                        <button
+                                            class="inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white bg-green-700 rounded-lg hover:bg-green-800 focus:ring-4 focus:outline-none focus:ring-green-300 dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800">
+                                            Complete
+                                        </button>
+                                    </a>
+                                    <%}%>
+
+
+                                        <a href="/notes/delete/<%-i._id%>">
+
+                                            <button
+                                                class="inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white bg-red-700 rounded-lg hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-800">
+                                                Delete🚮
+                                            </button>
+                                        </a>
+
+
+                        </div>
+
+                    </div>
+
+                    <%}%>
+            </div>
+
+
+        </div>
+    </div>
+
+    <!-- send mail form -->
+    <div class="relative flex justify-center items-center">
+        <div id="normalpayalert" class="z-10 w-full h-full hidden bg-gray-900 bg-opacity-80 top-0 fixed sticky-0">
+            <div class="w-full h-full flex justify-center items-center">
+                <div class="grid place-items-center">
+                    <div class="w-11/12 p-12 bg-white">
+                        <h1 class="text-xl font-semibold">Hello there 👋, <span class="font-normal">Please fill these
+                                details to Update your task. <span id="normalmemberID"></span>.</h1>
+                        <form id="contact-form" class="mt-6" action="/notes/update" method="post">
+                            <label class="block mt-2 text-xs font-semibold text-gray-600 uppercase">Title</label>
+                            <input type="text" name="title" placeholder="Enter your title"
+                                class="block w-full p-3 mt-2 text-gray-700 bg-gray-200 appearance-none focus:outline-none focus:bg-gray-300 focus:shadow-inner"
+                                required />
+
+                            <label class="block mt-2 text-xs font-semibold text-gray-600 uppercase">Description</label>
+                            <input type="text" name="description" placeholder="Enter your Description"
+                                class="block w-full p-3 mt-2 text-gray-700 bg-gray-200 appearance-none focus:outline-none focus:bg-gray-300 focus:shadow-inner"
+                                required />
+
+
+                            <label class="block mt-2 text-xs font-semibold text-gray-600 uppercase">Category</label>
+                            <input type="text" name="category" placeholder="Enter your Categrory"
+                                class="block w-full p-3 mt-2 text-gray-700 bg-gray-200 appearance-none focus:outline-none focus:bg-gray-300 focus:shadow-inner"
+                                required />
+
+                            <input type="hidden" name="noteId" placeholder="Enter your Categrory" id="noteId"
+                                class="block w-full p-3 mt-2 text-gray-700 bg-gray-200 appearance-none focus:outline-none focus:bg-gray-300 focus:shadow-inner"
+                                required />
+
+
+
+                            <label class="block mt-2 text-xs font-semibold text-gray-600 uppercase">Date</label>
+                            <input type="date" name="date" placeholder="message"
+                                class="block w-full p-3 mt-2 text-gray-700 bg-gray-200 appearance-none focus:outline-none focus:bg-gray-300 focus:shadow-inner"
+                                required></input>
+
+                            <button
+                                class="g-recaptcha w-full py-3 mt-6 font-medium tracking-widest text-white uppercase bg-black shadow-lg focus:outline-none hover:bg-gray-900 hover:shadow-none"
+                                data-sitekey="6LfQdLEiAAAAACVh9OEsnahH9KVM4tLmDClzDmIM" data-callback='onSubmit'
+                                data-action='submit'>Submit</button>
+                            <button type="button" onclick="normalpayAlert(false)"
+                                class="w-full py-3 mt-6 font-medium tracking-widest text-black uppercase bg-amber-200 shadow-lg focus:outline-none hover:bg-amber-100 hover:shadow-none">
+                                Cancel
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <div id="normalpayalertdata" class="hidden"></div>
+            <button onclick="payAlert(false)"
+                class="text-gray-800 absolute top-8 right-8 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-800"
+                aria-label="close">
+                <img class="dark:hidden" src="https://tuk-cdn.s3.amazonaws.com/can-uploader/cookies-1-svg2.svg"
+                    alt="close"></img>
+                <img class="dark:block hidden"
+                    src="https://tuk-cdn.s3.amazonaws.com/can-uploader/cookies-1-svg2dark.svg" alt="close"></img>
+            </button>
+        </div>
+    </div>
+
+    <script>
+        let normalPayAlert = document.getElementById("normalpayalert");
+
+        const normalpayAlert = (flag) => {
+            normalPayAlert.classList.toggle("hidden");
+        };
+        const addNormalPayAlert = ({ flag, id }) => {
+            document.getElementById('noteId').value = id;
+            normalpayAlert(flag);
+        }
+    </script>
+
+
+</body>
+
+</html>
